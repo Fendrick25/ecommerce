@@ -31,6 +31,7 @@ public class ProductDataMapper {
                 .name(product.getName())
                 .price(product.getPrice())
                 .stock(product.getStock())
+                .weight(product.getWeight())
                 .status(product.getStatus())
                 .category(product.getCategory())
                 .totalSold(product.getTotalSold())

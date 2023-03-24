@@ -31,6 +31,11 @@ public class ProductController {
         return new ResponseEntity<>(new Data<>(productService.createProduct(createProduct)), HttpStatus.CREATED);
     }
 
+    @GetMapping(params = {"page", "size"})
+    public ResponseEntity<Data<FindProductResponse>> findAllProduct(@RequestParam int page, @RequestParam int size){
+        return new ResponseEntity<>(new Data<>(productService.findAllProductSortByTotalSold(page, size)), HttpStatus.OK);
+    }
+
     @GetMapping(params = {"name", "page", "size"})
     public ResponseEntity<Data<FindProductResponse>> findProductByName(@RequestParam String name, @RequestParam int page, @RequestParam int size){
         return new ResponseEntity<>(new Data<>(productService.findProductByName(name, page, size)), HttpStatus.OK);

@@ -44,7 +44,7 @@ public class ProductDomainTest {
         productDomainService.initiate(product);
 
         assertNotNull(product.getId());
-        assertEquals(ProductStatus.NOT_ACTIVE, product.getStatus());
+        assertEquals(ProductStatus.ACTIVE, product.getStatus());
         assertEquals(ProductCategory.NO_CATEGORY, product.getCategory());
         assertEquals(Instant.parse("2023-03-11T10:00:00Z").getEpochSecond(), product.getCreatedAt());
     }

@@ -9,6 +9,7 @@ import java.util.UUID;
 public interface ProductRepository {
     Product saveProduct(Product product);
     Product getProduct(UUID productId);
+    List<Product> findAllProductSortByTotalSold(int page, int size);
     List<Product> findProductByName(String name, int page, int size);
     List<Product> findProductByCategory(ProductCategory category, int page, int size);
     List<Product> findProductByNameAndCategory(String name, ProductCategory category, int page, int size);

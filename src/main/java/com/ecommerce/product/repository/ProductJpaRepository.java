@@ -9,7 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 
 public interface ProductJpaRepository extends JpaRepository<ProductEntity, UUID> {
-    Page<ProductEntity> findByNameContaining(String name, Pageable pageable);
+    Page<ProductEntity> findAllByOrderByTotalSoldDesc(Pageable pageable);
+    Page<ProductEntity> findByNameContainingIgnoreCase(String name, Pageable pageable);
     Page<ProductEntity> findByCategoryContaining(ProductCategory category, Pageable pageable);
-    Page<ProductEntity> findByNameContainingAndCategory(String name, ProductCategory category, Pageable pageable);
+    Page<ProductEntity> findByNameContainingIgnoreCaseAndCategory(String name, ProductCategory category, Pageable pageable);
 }

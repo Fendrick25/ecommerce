@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
-@Validated
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService{
 
@@ -36,6 +35,12 @@ public class ProductServiceImpl implements ProductService{
         Product product = productRepository.getProduct(productId);
         productDomainService.calculateRating(product);
         return productDataMapper.productToProductDto(product);
+    }
+
+    @Override
+    public FindProductResponse findAllProductSortByTotalSold(int page, int size) {
+        List<Product> products = productRepository.findAllProductSortByTotalSold(page, size);
+        return productDataMapper.productsToFindProductResponse(products, page, size);
     }
 
     @Override

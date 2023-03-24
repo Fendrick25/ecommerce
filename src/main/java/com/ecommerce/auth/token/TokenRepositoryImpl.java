@@ -43,10 +43,10 @@ public class TokenRepositoryImpl implements TokenRepository{
         List<TokenEntity> tokenEntities =  tokens.stream()
                 .map(token -> {
                     TokenEntity tokenEntity = userDataMapper.tokenToTokenEntity(token);
-                    UserEntity userEntity = userJpaRepository.findById(tokenEntity.getUser().getId())
-                            .orElseThrow(() -> new ResourceNotFoundException("User with id: " + tokenEntity.getUser().getId() + " not found!"));
+                    UUID userId = token.getUserId();
+                    UserEntity userEntity = userJpaRepository.findById(userId)
+                            .orElseThrow(() -> new ResourceNotFoundException("User with id: " + userId + " not found!"));
                     tokenEntity.setUser(userEntity);
-                    System.out.println(userEntity.getId());
                     return tokenEntity;
                 })
                 .collect(Collectors.toList());

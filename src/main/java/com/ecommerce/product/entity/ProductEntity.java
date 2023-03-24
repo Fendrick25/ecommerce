@@ -53,6 +53,6 @@ public class ProductEntity {
     @Enumerated(EnumType.STRING)
     private ProductCategory category;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ProductReviewEntity> reviews;
 }
