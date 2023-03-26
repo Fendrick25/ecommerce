@@ -1,5 +1,6 @@
 package com.ecommerce.product.entity;
 
+import com.ecommerce.cart.entity.CartItemEntity;
 import com.ecommerce.product.domain.ProductCategory;
 import com.ecommerce.product.domain.ProductStatus;
 import jakarta.persistence.*;
@@ -27,7 +28,7 @@ public class ProductEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1000)
     private String description;
 
     @Column(nullable = false)
@@ -55,4 +56,7 @@ public class ProductEntity {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ProductReviewEntity> reviews;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CartItemEntity> cartItems;
 }

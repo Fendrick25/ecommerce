@@ -2,6 +2,7 @@ package com.ecommerce.auth.user.entity;
 
 import com.ecommerce.auth.token.TokenEntity;
 import com.ecommerce.auth.user.domain.UserRole;
+import com.ecommerce.cart.entity.CartEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -43,9 +44,15 @@ public class UserEntity implements UserDetails {
     @Column(nullable = false)
     private long createdAt;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<UserAddressEntity> addresses;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<TokenEntity> tokens;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    private CartEntity cart;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -17,6 +17,7 @@ public class ProductDto {
     private final UUID id;
     private final String name;
     private final BigDecimal price;
+    private final String description;
     private final double weight;
     private final int stock;
     private final int totalSold;

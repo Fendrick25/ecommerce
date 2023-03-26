@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ControllerAdvice
-public class ProductException extends ResponseEntityExceptionHandler {
+public class EcommerceException extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException exception){
@@ -24,6 +24,21 @@ public class ProductException extends ResponseEntityExceptionHandler {
                 .timestamp(LocalDateTime.now())
                 .status(HttpStatus.BAD_REQUEST)
                 .message("Data not found")
+                .errors(details)
+                .build();
+
+        return new ResponseEntity<>(err, err.getStatus());
+    }
+
+    @ExceptionHandler(InvalidStateException.class)
+    public ResponseEntity<?> handleInvalidStateException(InvalidStateException exception){
+        List<String> details = new ArrayList<>();
+        details.add(exception.getMessage());
+
+        ApiError err = ApiError.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_REQUEST)
+                .message("Invalid State")
                 .errors(details)
                 .build();
 

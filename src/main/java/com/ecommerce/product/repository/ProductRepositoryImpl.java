@@ -35,7 +35,6 @@ public class ProductRepositoryImpl implements ProductRepository{
     @Override
     public List<Product> findAllProductSortByTotalSold(int page, int size) {
         Page<ProductEntity> products = productJpaRepository.findAllByOrderByTotalSoldDesc(PageRequest.of(page - 1, size));
-        System.out.println(products.getContent().get(1));
         return products.getContent().stream()
                 .map(productDataMapper::productEntityToProduct)
                 .collect(Collectors.toList());
@@ -51,7 +50,7 @@ public class ProductRepositoryImpl implements ProductRepository{
 
     @Override
     public List<Product> findProductByCategory(ProductCategory category, int page, int size) {
-        Page<ProductEntity> products = productJpaRepository.findByCategoryContaining(category, PageRequest.of(page - 1, size));
+        Page<ProductEntity> products = productJpaRepository.findByCategory(category, PageRequest.of(page - 1, size));
         return products.getContent().stream()
                 .map(productDataMapper::productEntityToProduct)
                 .collect(Collectors.toList());
