@@ -3,3 +3,5 @@ services:
   spring-ecommerce:
     image: ecommerce:latest
     container_name: spring-ecommerce
+    ports:
+      - "8380:8380"
