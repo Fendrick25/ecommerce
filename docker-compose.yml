@@ -1,0 +1,5 @@
+version: '3.7'
+services:
+  spring-ecommerce:
+    image: ecommerce:latest
+    container_name: spring-ecommerce
