@@ -1,6 +1,7 @@
 package com.ecommerce.auth.user.repository;
 
 import com.ecommerce.auth.user.domain.User;
+import com.ecommerce.auth.user.entity.UserEntity;
 import com.ecommerce.auth.user.mapper.UserDataMapper;
 import com.ecommerce.cart.repository.CartJpaRepository;
 import jakarta.transaction.Transactional;
@@ -23,9 +24,9 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
-    @Transactional
     public User saveUser(User user) {
-        userJpaRepository.save(userDataMapper.userToUserEntity(user));
-        return userDataMapper.userEntityToUser(userJpaRepository.save(userDataMapper.userToUserEntity(user)));
+        UserEntity userEntity = userDataMapper.userToUserEntity(user);
+        userEntity.getCart().setUser(userEntity);
+        return userDataMapper.userEntityToUser(userJpaRepository.save(userEntity));
     }
 }

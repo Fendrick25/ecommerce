@@ -1,14 +1,14 @@
 package com.ecommerce.auth.user.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
 
 @Getter
 @Builder
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserAddress {
     private UUID id;
     private UUID userId;

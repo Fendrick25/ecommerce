@@ -17,7 +17,7 @@ public class CartItemEntity {
     @Id
     private UUID id;
     private int quantity;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private ProductEntity product;
     @ManyToOne(fetch = FetchType.LAZY)
     private CartEntity cart;

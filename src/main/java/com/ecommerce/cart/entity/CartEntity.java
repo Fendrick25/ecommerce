@@ -17,7 +17,7 @@ import java.util.UUID;
 public class CartEntity {
     @Id
     private UUID id;
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<CartItemEntity> items;
 
     @OneToOne(mappedBy = "cart")

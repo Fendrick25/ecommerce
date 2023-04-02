@@ -8,7 +8,6 @@ public interface TokenRepository {
 
     Optional<Token> findByToken(String token);
     List<Token> findAllValidTokenByUser(UUID userId);
-
     void saveToken(Token token);
     void saveAllToken(List<Token> tokens);
 }

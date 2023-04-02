@@ -7,7 +7,7 @@ import com.ecommerce.cart.dto.CartDto;
 import java.util.UUID;
 
 public interface CartService {
-    void addCartItem(UUID userId, AddCartItem addCartItem);
-    void deleteCartItem(UUID userId, UUID cartItemId);
-    CartDto getCart(UUID userId);
+    void addCartItem(String token, AddCartItem addCartItem);
+    void deleteCartItem(String token, UUID cartItemId);
+    CartDto getCart(String token);
 }

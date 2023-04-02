@@ -69,4 +69,24 @@ public class CartDataMapper {
                 .build();
     }
 
+  public Cart cartEntityToCart(CartEntity cartEntity){
+        return Cart.builder()
+                .id(cartEntity.getId())
+                .userId(cartEntity.getUser().getId())
+                .items(cartEntity.getItems().stream()
+                        .map(this::cartItemEntityToCartItem)
+                        .collect(Collectors.toList()))
+                .build();
+    }
+
+    public CartItem cartItemEntityToCartItem(CartItemEntity cartItemEntity){
+        return CartItem.builder()
+                .id(cartItemEntity.getId())
+                .cartId(cartItemEntity.getCart().getId())
+                .price(cartItemEntity.getProduct().getPrice())
+                .productId(cartItemEntity.getProduct().getId())
+                .quantity(cartItemEntity.getQuantity())
+                .build();
+    }
+
 }
