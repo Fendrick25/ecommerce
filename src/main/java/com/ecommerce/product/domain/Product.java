@@ -31,7 +31,7 @@ public class Product {
     public void initializeProduct(){
         id = UUID.randomUUID();
         status = ProductStatus.ACTIVE;
-        category = ProductCategory.NO_CATEGORY;
+        category = ProductCategory.ALL;
         totalSold = 0;
         averageRating = 0;
         reviews = new ArrayList<>();

@@ -2,6 +2,7 @@ package com.ecommerce.auth.user.domain;
 
 import com.ecommerce.auth.token.Token;
 import com.ecommerce.cart.domain.Cart;
+import com.ecommerce.payment.domain.ewallet.EWallet;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,6 +31,7 @@ public class User {
     private List<UserAddress> addresses;
     private List<Token> tokens;
     private Cart cart;
+    private EWallet eWallet;
 
     public void initiate(){
         id = UUID.randomUUID();
@@ -38,6 +40,9 @@ public class User {
         tokens = new ArrayList<>();
         addresses = new ArrayList<>();
         cart = Cart.builder()
+                .userId(id)
+                .build();
+        eWallet = EWallet.builder()
                 .userId(id)
                 .build();
     }

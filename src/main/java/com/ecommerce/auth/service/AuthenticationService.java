@@ -11,6 +11,7 @@ import com.ecommerce.auth.user.domain.UserDomainService;
 import com.ecommerce.auth.user.mapper.UserDataMapper;
 import com.ecommerce.auth.user.repository.UserRepository;
 import com.ecommerce.cart.domain.CartDomainService;
+import com.ecommerce.payment.domain.ewallet.EWalletDomainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,6 +30,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final UserDomainService userDomainService;
     private final CartDomainService cartDomainService;
+    private final EWalletDomainService eWalletDomainService;
     private final UserDataMapper userDataMapper;
 
     public AuthenticationResponse register(RegisterRequest registerRequest) {
@@ -37,6 +39,8 @@ public class AuthenticationService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDomainService.initiate(user);
         cartDomainService.initiateCart(user.getCart());
+        eWalletDomainService.initiate(user.getEWallet());
+
         User savedUser = userRepository.saveUser(user);
         String jwtToken = jwtService.generateToken(savedUser.getEmail());
         saveUserToken(savedUser, jwtToken);

@@ -1,24 +1,21 @@
-package com.ecommerce.order.domain;
+package com.ecommerce.payment.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.UUID;
 
 @Getter
 @Builder
 @AllArgsConstructor
-public class OrderLog {
+public class PaymentLog {
     private UUID id;
-    private UUID orderId;
-    private final String log;
-    @Setter
+    private UUID paymentId;
+    private String log;
     private long createdAt;
 
-    void initiate(){
+    public void initiate(){
         id = UUID.randomUUID();
     }
-
 }

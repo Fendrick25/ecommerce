@@ -11,8 +11,12 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UserAddress {
     private UUID id;
-    private UUID userId;
+    private String name;
     private final String postalCode;
     private final String city;
     private final String address;
+
+    public void initiate(){
+        id = UUID.randomUUID();
+    }
 }

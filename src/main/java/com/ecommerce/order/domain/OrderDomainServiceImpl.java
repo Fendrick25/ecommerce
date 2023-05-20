@@ -11,7 +11,7 @@ import java.time.Clock;
 public class OrderDomainServiceImpl implements OrderDomainService{
     private final Clock clock;
     @Override
-    public void initiate(Order order) {
+    public OrderLog initiate(Order order) {
         order.initiate();
         order.calculateTotal();
         order.setCreatedAt(clock.instant().getEpochSecond());
@@ -21,61 +21,61 @@ public class OrderDomainServiceImpl implements OrderDomainService{
                 .createdAt(clock.instant().getEpochSecond())
                 .build();
         orderLog.initiate();
-        order.addOrderLog(orderLog);
+        return orderLog;
     }
 
     @Override
-    public void payOrder(Order order, BigDecimal paymentTotal) {
+    public OrderLog payOrder(Order order, BigDecimal paymentTotal) {
         order.payOrder(paymentTotal);
         OrderLog orderLog = OrderLog.builder()
                 .log("ORDER PAID")
                 .createdAt(clock.instant().getEpochSecond())
                 .build();
         orderLog.initiate();
-        order.addOrderLog(orderLog);
+        return orderLog;
     }
 
     @Override
-    public void cancelOrder(Order order) {
+    public OrderLog cancelOrder(Order order) {
         order.cancelOrder();
         OrderLog orderLog = OrderLog.builder()
                 .log("ORDER CANCELLED")
                 .createdAt(clock.instant().getEpochSecond())
                 .build();
         orderLog.initiate();
-        order.addOrderLog(orderLog);
+        return orderLog;
     }
 
     @Override
-    public void deliverOrder(Order order) {
+    public OrderLog deliverOrder(Order order) {
         order.deliverOrder();
         OrderLog orderLog = OrderLog.builder()
                 .log("ORDER ON DELIVERY")
                 .createdAt(clock.instant().getEpochSecond())
                 .build();
         orderLog.initiate();
-        order.addOrderLog(orderLog);
+        return orderLog;
     }
 
     @Override
-    public void orderDelivered(Order order) {
+    public OrderLog orderDelivered(Order order) {
         order.orderDelivered();
         OrderLog orderLog = OrderLog.builder()
                 .log("ORDER DELIVERED")
                 .createdAt(clock.instant().getEpochSecond())
                 .build();
         orderLog.initiate();
-        order.addOrderLog(orderLog);
+        return orderLog;
     }
 
     @Override
-    public void finishOrder(Order order) {
+    public OrderLog finishOrder(Order order) {
         order.finishOrder();
         OrderLog orderLog = OrderLog.builder()
                 .log("ORDER FINISHED")
                 .createdAt(clock.instant().getEpochSecond())
                 .build();
         orderLog.initiate();
-        order.addOrderLog(orderLog);
+        return orderLog;
     }
 }

@@ -20,7 +20,7 @@ public class CartEntity {
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<CartItemEntity> items;
 
-    @OneToOne(mappedBy = "cart")
+    @OneToOne(mappedBy = "cart", fetch = FetchType.LAZY)
     private UserEntity user;
 
 }

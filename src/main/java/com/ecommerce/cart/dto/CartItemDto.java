@@ -12,9 +12,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CartItemDto {
     private final UUID id;
-    private final UUID cartId;
     private final UUID productId;
+    private final String productName;
     private final BigDecimal price;
     private final int quantity;
     private final BigDecimal subTotal;
+    private final String imageUrl;
 }

@@ -17,6 +17,9 @@ public class UserAddressEntity {
     private UUID id;
 
     @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
     private String postalCode;
 
     @Column(nullable = false)
@@ -24,7 +27,6 @@ public class UserAddressEntity {
 
     @Column(nullable = false, length = 1000)
     private String address;
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     private UserEntity user;

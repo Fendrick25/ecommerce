@@ -20,4 +20,9 @@ public class UserDomainServiceImpl implements UserDomainService{
     public void changePassword(User user, String password) {
 
     }
+
+    @Override
+    public void initiateAddress(UserAddress userAddress) {
+        userAddress.initiate();
+    }
 }

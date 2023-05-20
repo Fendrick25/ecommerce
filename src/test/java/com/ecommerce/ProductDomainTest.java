@@ -35,7 +35,7 @@ public class ProductDomainTest {
                 .weight(1.0)
                 .stock(10)
                 .status(ProductStatus.NOT_ACTIVE)
-                .category(ProductCategory.NO_CATEGORY)
+                .category(ProductCategory.ALL)
                 .build();
     }
 
@@ -45,7 +45,7 @@ public class ProductDomainTest {
 
         assertNotNull(product.getId());
         assertEquals(ProductStatus.ACTIVE, product.getStatus());
-        assertEquals(ProductCategory.NO_CATEGORY, product.getCategory());
+        assertEquals(ProductCategory.ALL, product.getCategory());
         assertEquals(Instant.parse("2023-03-11T10:00:00Z").getEpochSecond(), product.getCreatedAt());
     }
 

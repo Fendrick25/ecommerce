@@ -9,7 +9,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneId;
 
-@SpringBootApplication(scanBasePackages = "com.ecommerce.product")
+@SpringBootApplication(scanBasePackages = "com.ecommerce.product.domain")
 public class ProductTestConfiguration {
 
     @Bean

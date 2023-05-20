@@ -25,7 +25,6 @@ public class CartDataMapper {
     public CartDto cartToCartDto(Cart cart){
         return CartDto.builder()
                 .id(cart.getId())
-                .userId(cart.getUserId())
                 .total(cart.getTotal())
                 .items(cart.getItems().stream()
                         .map(this::cartItemToCartItemDto)
@@ -36,11 +35,12 @@ public class CartDataMapper {
     public CartItemDto cartItemToCartItemDto(CartItem cartItem){
         return CartItemDto.builder()
                 .id(cartItem.getId())
-                .cartId(cartItem.getCartId())
                 .price(cartItem.getPrice())
                 .quantity(cartItem.getQuantity())
                 .subTotal(cartItem.getSubTotal())
                 .productId(cartItem.getProductId())
+                .productName(cartItem.getProductName())
+                .imageUrl(cartItem.getImageUrl())
                 .build();
     }
 
@@ -63,9 +63,6 @@ public class CartDataMapper {
                 .product(ProductEntity.builder()
                         .id(cartItem.getProductId())
                         .build())
-                .cart(CartEntity.builder()
-                        .id(cartItem.getCartId())
-                        .build())
                 .build();
     }
 
@@ -82,9 +79,10 @@ public class CartDataMapper {
     public CartItem cartItemEntityToCartItem(CartItemEntity cartItemEntity){
         return CartItem.builder()
                 .id(cartItemEntity.getId())
-                .cartId(cartItemEntity.getCart().getId())
                 .price(cartItemEntity.getProduct().getPrice())
                 .productId(cartItemEntity.getProduct().getId())
+                .productName(cartItemEntity.getProduct().getName())
+                .imageUrl(cartItemEntity.getProduct().getImageUrl())
                 .quantity(cartItemEntity.getQuantity())
                 .build();
     }

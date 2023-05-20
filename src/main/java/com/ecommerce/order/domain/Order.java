@@ -68,7 +68,7 @@ public class Order {
 
     void orderDelivered(){
         if(!status.equals(OrderStatus.ON_DELIVERY))
-            throw new InvalidStateException("Not in correct state for delivered order");
+            throw new InvalidStateException("Not in correct state for order order delivered");
 
         status = OrderStatus.DELIVERED;
     }

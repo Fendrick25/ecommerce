@@ -2,16 +2,14 @@ package com.ecommerce.cart.repository;
 
 import com.ecommerce.cart.domain.Cart;
 import com.ecommerce.cart.domain.CartItem;
+import com.ecommerce.cart.entity.CartEntity;
 import com.ecommerce.cart.entity.CartItemEntity;
 import com.ecommerce.cart.mapper.CartDataMapper;
-import com.ecommerce.exception.InvalidRequestException;
 import com.ecommerce.exception.ResourceNotFoundException;
-import com.ecommerce.product.entity.ProductEntity;
-import com.ecommerce.product.repository.ProductJpaRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -19,48 +17,40 @@ import java.util.UUID;
 public class CartRepositoryImpl implements CartRepository{
     private final CartItemJpaRepository cartItemJpaRepository;
     private final CartJpaRepository cartJpaRepository;
-    private final ProductJpaRepository productJpaRepository;
     private final CartDataMapper cartDataMapper;
 
     @Override
     public Cart getCart(String userEmail) {
-        return cartDataMapper.cartEntityToCart(cartJpaRepository.findByUserEmail(userEmail));
+        return cartDataMapper.cartEntityToCart(findCartByEmail(userEmail));
     }
 
     @Override
-    public void addCartItem(String userEmail, CartItem cartItem) {
-        ProductEntity productEntity = productJpaRepository.findById(cartItem.getProductId())
-                .orElseThrow(() -> new ResourceNotFoundException("Product with id: " + cartItem.getProductId() + " not found"));
-
-        int availableStock = productEntity.getStock();
-        int requestedStock = cartItem.getQuantity();
-        if(availableStock < requestedStock)
-            throw new InvalidRequestException("Not enough product stock, current stock: " + availableStock + ", requested stock: " + requestedStock);
-
-        Optional<CartItemEntity> optionalCartItem = cartItemJpaRepository.findByProductId(cartItem.getProductId());
-        if(optionalCartItem.isPresent()){
-            CartItemEntity currentCartItem = optionalCartItem.get();
-            int totalRequestedStock = currentCartItem.getQuantity() + cartItem.getQuantity();
-            if(availableStock < totalRequestedStock)
-                throw new InvalidRequestException("Not enough product stock, current stock: " + availableStock + ", requested total stock: " + totalRequestedStock);
-
-            currentCartItem.setQuantity(totalRequestedStock);
-            cartItemJpaRepository.save(currentCartItem);
-        }else{
-            CartItemEntity cartItemEntity = cartDataMapper.cartItemToCartItemEntity(cartItem);
-            cartItemEntity.setCart(cartJpaRepository.findByUserEmail(userEmail));
-            cartItemJpaRepository.save(cartItemEntity);
-        }
+    public Cart saveCartItem(String userEmail, CartItem cartItem) {
+        CartItemEntity cartItemEntity = cartDataMapper.cartItemToCartItemEntity(cartItem);
+        cartItemEntity.setCart(findCartByEmail(userEmail));
+        cartItemJpaRepository.save(cartItemEntity);
+        return cartDataMapper.cartEntityToCart(findCartByEmail(userEmail));
     }
 
     @Override
-    public void deleteCartItem(String userEmail, UUID cartItemId) {
-        cartJpaRepository.findByUserEmail(userEmail).getItems()
-                .stream()
-                .filter(item -> item.getId().equals(cartItemId))
-                .findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException("Cart Item with id: " + cartItemId + "on user with id: " + userEmail + " not found"));
-
+    public Cart deleteCartItem(String userEmail, UUID cartItemId) {
+        findCartItemByEmail(userEmail, cartItemId);
         cartItemJpaRepository.deleteById(cartItemId);
+        return cartDataMapper.cartEntityToCart(findCartByEmail(userEmail));
+    }
+
+    @Override
+    public CartItem getCartItem(String userEmail, UUID cartItemId) {
+        return cartDataMapper.cartItemEntityToCartItem(findCartItemByEmail(userEmail, cartItemId));
+    }
+
+    private CartEntity findCartByEmail(String email){
+        return cartJpaRepository.findByUserEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart not found for user with email: " + email));
+    }
+
+    private CartItemEntity findCartItemByEmail(String userEmail, UUID cartItemId){
+        return cartItemJpaRepository.findByCart_User_EmailAndId(userEmail, cartItemId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart item with id: " + cartItemId + " not found"));
     }
 }
